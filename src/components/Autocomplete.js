@@ -25,7 +25,6 @@ class Autocomplete extends Component {
 
     render() {
         const filteredItems = this.filterItems()
-        let key = 0;
         return (
             <div>
                 <input
@@ -36,7 +35,7 @@ class Autocomplete extends Component {
                 <Scroll>
                     <ul>
                         {
-                            filteredItems.map(item => <li key={key++} onClick={this.onClickItem}
+                            filteredItems.map((item, index) => <li key={index} onClick={this.onClickItem}
                                                           className='pa3 tc'>{item}</li>)
                         }
                     </ul>
