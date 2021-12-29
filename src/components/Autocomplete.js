@@ -1,48 +1,35 @@
 import React, {Component} from "react";
 import './Autocomplete.css'
-import Scroll from "./Scroll";
 
-class Autocomplete extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchFieldValue: '',
-            items: this.props.items
-        }
+const Autocomplete = ( {items, searchChange, clickItem, searchFieldValue} ) => {
+
+
+    const onClickInput = (event) => {
+        event.target.parentNode.querySelector('ul').style.display = 'block';
     }
 
-    onSearchChange = (event) => {
-        this.setState({searchFieldValue: event.target.value})
+    const onInputFocusLost = (event) => {
+        setTimeout(() => {  event.target.parentNode.querySelector('ul').style.display = 'none' }, 200);
     }
 
-    onClickItem = (event) => {
-        this.setState({searchFieldValue: event.target.innerText})
-    }
-
-    filterItems() {
-        return this.state.items.filter(item => item.toLowerCase().includes(this.state.searchFieldValue.toLowerCase()));
-    }
-
-    render() {
-        const filteredItems = this.filterItems()
         return (
-            <div>
+            <div className='autocomplete'>
                 <input
-                    className='pa3 tc'
+                    placeholder='Find your pokemon!'
+                    className='pa3 tc w-100'
                     type='search'
-                    onChange={this.onSearchChange}
-                    value={this.state.searchFieldValue}/>
-                <Scroll>
-                    <ul>
-                        {
-                            filteredItems.map((item, index) => <li key={index} onClick={this.onClickItem}
-                                                          className='pa3 tc'>{item}</li>)
-                        }
-                    </ul>
-                </Scroll>
+                    onChange={searchChange}
+                    onClick={onClickInput}
+                    onBlur={onInputFocusLost}
+                    value={searchFieldValue}/>
+                <ul>
+                    {
+                        items.map((item, index) => <li key={index} onClick={clickItem}
+                                                               className='pa3 tc'>{item}</li>)
+                    }
+                </ul>
             </div>
         )
-    }
 }
 
 export default Autocomplete;

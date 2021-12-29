@@ -1,9 +1,0 @@
-div::-webkit-scrollbar {
-    display: none;
-}
-.scroll {
-    overflow-y: scroll;
-    height: auto;
-    max-height: 300px;
-    border: 1px solid #999;
-}
