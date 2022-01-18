@@ -9,34 +9,42 @@ class Card extends Component {
         this.state = {
             name: props.name,
             isLoading: true,
-            imgUrl: ''
+            imgUrl: '',
+            stats:[],
+            response:{}
         }
     }
 
     componentDidMount() {
         fetch(`https://pokeapi.co/api/v2/pokemon/${this.state.name}`)
             .then(response => response.json())
-            .then(data => data.sprites.other.home.front_default)
-            .then(url => this.setState({imgUrl: url}))
-            .finally(() => this.setState({isLoading: false}))
+            .then(data => this.setState({response: data}))
+            .finally(() => {
+                this.setState({imgUrl: this.state.response.sprites.other.home.front_default})
+                this.setState({stats: this.state.response.stats})
+                this.setState({isLoading: false})
+            })
     }
-
-
-
-    flipOnClick(name) {
-        document.querySelector(`[name='${name}']`).classList.add('animate__flip')
-        setTimeout(() => document.querySelector('.card').classList.remove('animate__flip'), 1000)
-    }
-
 
     render() {
         const {name, isLoading, imgUrl} = this.state;
         return(
-            <div name={name}
-                 key={name}
-                 className='pa2 ma2 bg-gold shadow-5 grow card animate__animated'
-                 onClick={() => this.flipOnClick(name)}>
-                {isLoading ? <div/> : <img alt="pokemon" src={imgUrl}/>}
+
+            <div
+                name={name}
+                key={name}
+                className="ma2 flip-card">
+                <div className="flip-card-inner">
+                    <div className="pa2 flip-card-front shadow-5 bg-gold">
+                        {isLoading ? <div/> : <img alt="pokemon" src={imgUrl}/>}
+                    </div>
+                    <div className="flip-card-back shadow-5 bg-dark-blue">
+                        <h1>{name.toUpperCase()}</h1>
+                        {
+                            this.state.stats.map(statistic => <p>{`${statistic.stat.name.toUpperCase()}: ${statistic.base_stat}`}</p>)
+                        }
+                    </div>
+                </div>
             </div>
         )
     }

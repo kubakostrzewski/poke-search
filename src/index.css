@@ -15,9 +15,8 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: PokemonSolid, serif;
+  font-weight: lighter;
   background: rgb(214,212,20);
   background: linear-gradient(90deg, rgb(197 195 28) 0%, rgb(191 25 25) 100%);
 }
